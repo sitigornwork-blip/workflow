@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F&amp;B Image OS — 3-Stage Workflow</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0e0e;--sur:#161616;--sur2:#1f1f1f;
+  --b:rgba(255,255,255,.08);--bs:rgba(255,255,255,.18);
+  --t:#f0ede8;--td:rgba(240,237,232,.45);--tm:rgba(240,237,232,.7);
+  --gold:#c9a84c;--gd:rgba(201,168,76,.15);
+  --red:#e84040;--grn:#3ecf8e;--blue:#4a9eff;--pur:#a78bfa;--r:3px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--t);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(14,14,14,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--b);padding:0 40px;height:56px;display:flex;align-items:center;justify-content:space-between;}
+.nl{font-family:'DM Serif Display',serif;font-size:16px;color:var(--gold);}
+.nm{display:flex;gap:4px;list-style:none;}
+.nm a{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--td);text-decoration:none;padding:5px 10px;border-radius:var(--r);transition:.18s;}
+.nm a:hover{color:var(--t);background:var(--sur2);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:80px 40px 64px;position:relative;overflow:hidden;border-bottom:1px solid var(--b);}
+.hgb{position:absolute;inset:0;background-image:linear-gradient(var(--b) 1px,transparent 1px),linear-gradient(90deg,var(--b) 1px,transparent 1px);background-size:48px 48px;}
+.hg1{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+.hg2{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(74,158,255,.05) 0%,transparent 70%);bottom:0;left:200px;pointer-events:none;}
+.htag{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;position:relative;display:flex;align-items:center;gap:12px;}
+.htag::before{content:'';display:block;width:32px;height:1px;background:var(--gold);}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(48px,7vw,96px);line-height:1.02;letter-spacing:-.02em;position:relative;max-width:900px;margin-bottom:28px;}
+h1 em{font-style:italic;color:var(--gold);}
+.hdesc{font-size:17px;color:var(--tm);max-width:600px;font-weight:300;line-height:1.75;position:relative;margin-bottom:48px;}
+.hst{display:flex;gap:48px;position:relative;flex-wrap:wrap;}
+.stat{display:flex;flex-direction:column;gap:4px;}
+.sn{font-family:'DM Serif Display',serif;font-size:32px;color:var(--gold);line-height:1;}
+.sl{font-size:11px;color:var(--td);letter-spacing:.1em;text-transform:uppercase;}
+
+/* WORKFLOW PAGE */
+.wf-page{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 40px;background:var(--bg);border-bottom:1px solid var(--b);position:relative;overflow:hidden;}
+.wf-page .hgb{opacity:.5;}
+.wf-title{font-family:'DM Serif Display',serif;font-size:clamp(32px,4vw,52px);margin-bottom:8px;position:relative;}
+.wf-sub{font-size:14px;color:var(--td);margin-bottom:64px;font-weight:300;position:relative;}
+
+/* FLOW DIAGRAM */
+.flow-diagram{display:flex;flex-direction:column;gap:0;position:relative;}
+.flow-row{display:flex;align-items:stretch;gap:0;}
+.flow-stage{flex:1;border:1px solid var(--bs);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;}
+.flow-stage.fnb{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));}
+.flow-stage.ai{background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(167,139,250,.03));}
+.flow-stage.gfx{background:linear-gradient(135deg,rgba(62,207,142,.08),rgba(62,207,142,.03));}
+.flow-stage-head{padding:20px 22px 16px;border-bottom:1px solid var(--b);}
+.flow-stage-num{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px;}
+.flow-stage.fnb .flow-stage-num{color:var(--gold);}
+.flow-stage.ai .flow-stage-num{color:var(--pur);}
+.flow-stage.gfx .flow-stage-num{color:var(--grn);}
+.flow-stage-icon{font-size:28px;margin-bottom:8px;display:block;}
+.flow-stage-name{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:3px;}
+.flow-stage-role{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;}
+.flow-stage.fnb .flow-stage-role{color:var(--gold);}
+.flow-stage.ai .flow-stage-role{color:var(--pur);}
+.flow-stage.gfx .flow-stage-role{color:var(--grn);}
+.flow-stage-body{padding:16px 22px 20px;flex:1;display:flex;flex-direction:column;gap:8px;}
+.flow-task{font-size:12px;color:var(--td);display:flex;align-items:flex-start;gap:8px;line-height:1.5;}
+.flow-task::before{content:'\2192';flex-shrink:0;opacity:.5;margin-top:1px;}
+.flow-gate{margin-top:auto;padding-top:14px;border-top:1px solid var(--b);}
+.flow-gate-txt{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:2px;display:flex;align-items:center;gap:6px;}
+.flow-stage.fnb .flow-gate-txt{background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.25);}
+.flow-stage.ai .flow-gate-txt{background:rgba(167,139,250,.1);color:var(--pur);border:1px solid rgba(167,139,250,.25);}
+.flow-stage.gfx .flow-gate-txt{background:rgba(62,207,142,.1);color:var(--grn);border:1px solid rgba(62,207,142,.25);}
+
+.flow-arrow-col{width:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;flex-shrink:0;}
+.flow-arrow-line{width:1px;height:40px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);opacity:.4;}
+.flow-arrow-icon{font-size:22px;color:var(--gold);opacity:.7;}
+.flow-arrow-lbl{font-family:'Courier Prime',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--td);writing-mode:vertical-lr;text-align:center;}
+
+/* HANDOFF GATE between stages */
+.handoff-gate{display:flex;align-items:center;justify-content:center;padding:28px 0;gap:20px;position:relative;}
+.handoff-gate::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--red),transparent);opacity:.3;}
+.hg-box{border:1px solid rgba(232,64,64,.4);border-radius:var(--r);padding:14px 24px;background:rgba(232,64,64,.05);display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
+.hg-icon{font-size:18px;}
+.hg-text{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.08em;color:var(--red);}
+.hg-sub{font-size:12px;color:var(--td);margin-top:3px;}
+
+/* SECTION */
+.sec{padding:72px 40px;border-bottom:1px solid var(--b);}
+.slbl{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.slbl::after{content:'';flex:1;max-width:40px;height:1px;background:var(--gold);opacity:.5;}
+h2{font-family:'DM Serif Display',serif;font-size:clamp(26px,3.5vw,42px);letter-spacing:-.01em;line-height:1.1;margin-bottom:40px;}
+
+/* CALLOUT */
+.cb{background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(74,158,255,.04));border:1px solid rgba(201,168,76,.2);border-radius:var(--r);padding:28px 26px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;margin-bottom:36px;}
+.ct{font-family:'DM Serif Display',serif;font-size:20px;line-height:1.35;}
+.ct span{color:var(--gold);font-style:italic;}
+.cn{font-size:13px;color:var(--td);max-width:240px;text-align:right;font-weight:300;line-height:1.65;}
+
+/* STAGE DIVIDER */
+.sdiv{display:flex;align-items:center;gap:16px;padding:18px 40px;background:var(--sur);border-top:1px solid var(--b);border-bottom:1px solid var(--b);}
+.sb{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:6px 16px;border-radius:2px;}
+.sb.fnb{background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.35);}
+.sb.ai{background:rgba(167,139,250,.12);color:var(--pur);border:1px solid rgba(167,139,250,.3);}
+.sb.gfx{background:rgba(62,207,142,.1);color:var(--grn);border:1px solid rgba(62,207,142,.25);}
+.st2{font-family:'DM Serif Display',serif;font-size:22px;}
+.sdn{margin-left:auto;font-size:12px;color:var(--td);text-align:right;line-height:1.5;}
+
+/* IO BANNER */
+.iob{display:grid;grid-template-columns:1fr 40px 1fr;margin-bottom:32px;border:1px solid var(--bs);border-radius:var(--r);overflow:hidden;}
+.ios{padding:24px 22px;background:var(--sur);}
+.ios.out{background:var(--sur2);}
+.ioa{display:flex;align-items:center;justify-content:center;background:var(--gd);border-left:1px solid var(--b);border-right:1px solid var(--b);color:var(--gold);font-size:18px;}
+.iot{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.ioi{display:flex;flex-direction:column;gap:7px;}
+.ioitem{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--tm);}
+.iod{width:5px;height:5px;border-radius:50%;margin-top:7px;flex-shrink:0;background:var(--gold);}
+.ios.out .iod{background:var(--pur);}
+.ios.out2 .iod{background:var(--grn);}
+
+/* PHASE BLOCKS */
+.pf{display:flex;flex-direction:column;gap:2px;margin-bottom:0;}
+.pb{border:1px solid var(--b);border-radius:var(--r);overflow:hidden;transition:border-color .2s;}
+.pb:hover{border-color:var(--bs);}
+.pb.fnb{border-left:3px solid rgba(201,168,76,.5);}
+.pb.ai{border-left:3px solid rgba(167,139,250,.5);}
+.pb.gfx{border-left:3px solid rgba(62,207,142,.5);}
+.ph{display:grid;grid-template-columns:56px 1fr auto 28px;align-items:center;padding:18px 22px;background:var(--sur);cursor:pointer;user-select:none;gap:14px;transition:background .15s;}
+.ph:hover{background:var(--sur2);}
+.pnum{font-family:'DM Serif Display',serif;font-size:28px;color:var(--gold);opacity:.6;line-height:1;}
+.pm{display:flex;flex-direction:column;gap:3px;}
+.ptit{font-family:'DM Serif Display',serif;font-size:19px;letter-spacing:-.01em;}
+.psub{font-size:12px;color:var(--td);font-weight:300;}
+.pts{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+.tag{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:2px;white-space:nowrap;}
+.tg{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.3);}
+.tgt{background:rgba(232,64,64,.1);color:var(--red);border:1px solid rgba(232,64,64,.3);}
+.to{background:rgba(62,207,142,.1);color:var(--grn);border:1px solid rgba(62,207,142,.3);}
+.tf{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.3);}
+.tp{background:rgba(167,139,250,.1);color:var(--pur);border:1px solid rgba(167,139,250,.3);}
+.ptog{color:var(--td);font-size:14px;transition:transform .25s;text-align:center;}
+.pbody{display:none;padding:0 22px 26px;background:var(--sur);border-top:1px solid var(--b);}
+.pbody.open{display:block;}
+.ptog.open{transform:rotate(180deg);}
+
+/* STEP TABLE — UNIFORM ACROSS ALL */
+.stbl{width:100%;border-collapse:collapse;margin-top:18px;font-size:13px;}
+.stbl thead tr{border-bottom:1px solid var(--bs);}
+.stbl th{padding:9px 14px 10px;text-align:left;font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--td);font-weight:400;background:var(--sur2);}
+.stbl td{padding:12px 14px;vertical-align:top;border-bottom:1px solid var(--b);color:var(--tm);line-height:1.55;}
+.stbl tr:last-child td{border-bottom:none;}
+.stbl tr:hover td{background:rgba(255,255,255,.015);}
+.stbl colgroup col:nth-child(1){width:60px;}
+.stbl colgroup col:nth-child(2){width:28%;}
+.stbl colgroup col:nth-child(3){width:14%;}
+.stbl colgroup col:nth-child(4){width:28%;}
+.stbl colgroup col:nth-child(5){width:auto;}
+.snum{font-family:'Courier Prime',monospace;font-size:11px;color:var(--td);white-space:nowrap;}
+.sname{color:var(--t);font-weight:500;margin-bottom:2px;}
+.bfnb{color:var(--gold);font-size:12px;font-weight:500;}
+.bai{color:var(--pur);font-size:12px;}
+.bgfx{color:var(--grn);font-size:12px;font-weight:500;}
+.bboth{color:var(--blue);font-size:12px;}
+.scl{display:flex;flex-direction:column;gap:4px;margin-top:2px;}
+.ci{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--td);line-height:1.5;}
+.ci::before{content:'\25A1';font-size:10px;margin-top:2px;color:var(--bs);flex-shrink:0;}
+.grow td{border-top:1px solid rgba(232,64,64,.3)!important;background:rgba(232,64,64,.025)!important;}
+.glbl{display:inline-flex;align-items:center;gap:7px;font-size:11px;color:var(--red);font-family:'Courier Prime',monospace;letter-spacing:.08em;}
+.glbl::before{content:'\2B21';font-size:12px;}
+
+/* HANDOFF BOX */
+.hbox{margin-top:22px;border:1px dashed rgba(232,64,64,.4);border-radius:var(--r);padding:18px 20px;background:rgba(232,64,64,.03);display:flex;align-items:flex-start;gap:14px;}
+.hi2{font-size:22px;flex-shrink:0;margin-top:2px;}
+.htit{font-family:'DM Serif Display',serif;font-size:16px;color:var(--red);margin-bottom:8px;}
+.hitms{display:flex;flex-direction:column;gap:6px;}
+.hitem{font-size:12.5px;color:var(--tm);display:flex;align-items:flex-start;gap:8px;}
+.hitem::before{content:'\25C7';color:var(--red);font-size:10px;margin-top:3px;flex-shrink:0;opacity:.7;}
+
+/* PROMPT BLOCK */
+.pp{margin-top:18px;border:1px solid var(--b);border-radius:var(--r);overflow:hidden;}
+.pph{padding:10px 16px;background:var(--sur2);border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;}
+.ppl{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.ppb{padding:16px 18px;background:#111;font-family:'Courier Prime',monospace;font-size:12px;line-height:1.85;color:#aaa;}
+.pk{color:var(--blue);}
+.pv{color:#e0dbd0;}
+.pc{color:#555;}
+
+/* TRAFFIC LIGHT */
+.trf{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px;}
+.tc{padding:14px 12px;border-radius:var(--r);border:1px solid;text-align:center;}
+.tc.pass{background:rgba(62,207,142,.06);border-color:rgba(62,207,142,.3);}
+.tc.rev{background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.3);}
+.tc.rej{background:rgba(232,64,64,.06);border-color:rgba(232,64,64,.3);}
+.tcd{font-size:20px;margin-bottom:5px;}
+.tcl{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px;}
+.tc.pass .tcl{color:var(--grn);}
+.tc.rev .tcl{color:var(--gold);}
+.tc.rej .tcl{color:var(--red);}
+.tcc{font-size:11.5px;color:var(--td);line-height:1.5;}
+
+/* TOOLS */
+.tm2{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--b);border:1px solid var(--b);border-radius:var(--r);overflow:hidden;}
+.tc2{background:var(--sur);padding:22px 18px;transition:background .15s;}
+.tc2:hover{background:var(--sur2);}
+.tcat{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.tnm{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:5px;}
+.tuse{font-size:12px;color:var(--td);line-height:1.55;font-weight:300;}
+
+/* GATES */
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
+.gc{border:1px solid rgba(232,64,64,.25);border-radius:var(--r);padding:22px 18px;background:rgba(232,64,64,.03);}
+.gct{display:flex;align-items:center;gap:10px;font-family:'DM Serif Display',serif;font-size:17px;margin-bottom:12px;}
+.gi{width:28px;height:28px;border-radius:50%;background:rgba(232,64,64,.15);border:1px solid rgba(232,64,64,.4);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--red);font-family:'Courier Prime',monospace;font-weight:700;flex-shrink:0;}
+.gcks{display:flex;flex-direction:column;gap:5px;}
+.gck{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--tm);}
+.gck::before{content:'\25C7';color:var(--red);font-size:10px;margin-top:3px;flex-shrink:0;opacity:.7;}
+
+/* PROMPTS */
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;}
+.prc{border:1px solid var(--b);border-radius:var(--r);overflow:hidden;}
+.prh{padding:12px 16px;background:var(--sur2);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--b);}
+.prt{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);}
+.prb{padding:16px;background:#111;font-family:'Courier Prime',monospace;font-size:11.5px;line-height:1.85;color:#aaa;}
+
+/* FILE */
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
+.fc{border:1px solid var(--b);border-radius:var(--r);padding:18px;background:var(--sur);}
+.fct{font-family:'DM Serif Display',serif;font-size:15px;margin-bottom:10px;}
+.fe{font-family:'Courier Prime',monospace;font-size:11px;color:var(--gold);background:rgba(201,168,76,.07);padding:8px 10px;border-radius:2px;margin-bottom:8px;line-height:1.7;white-space:pre;}
+.fn{font-size:12px;color:var(--td);line-height:1.55;}
+
+footer{padding:40px;border-top:1px solid var(--b);display:flex;justify-content:space-between;align-items:flex-end;}
+.fb{font-family:'DM Serif Display',serif;font-size:22px;color:var(--gold);opacity:.4;}
+.fm{font-family:'Courier Prime',monospace;font-size:10px;color:var(--td);letter-spacing:.12em;text-align:right;line-height:2;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.hero>*{animation:fadeUp .9s ease both;}
+.htag{animation-delay:.1s;} h1{animation-delay:.2s;} .hdesc{animation-delay:.3s;} .hst{animation-delay:.42s;}
+
+@media(max-width:768px){
+  nav{padding:0 16px;} .nm{display:none;}
+  .hero,.wf-page{padding:60px 20px 48px;min-height:auto;}
+  .sec{padding:48px 20px;}
+  .flow-row{flex-direction:column;} .flow-arrow-col{display:none;}
+  .iob{grid-template-columns:1fr;} .ioa{display:none;}
+  .ph{grid-template-columns:44px 1fr;} .pts{display:none;}
+  .hst{gap:24px;} .cb{grid-template-columns:1fr;} .cn{text-align:left;}
+  .sdiv{flex-wrap:wrap;} .sdn{margin-left:0;}
+  .trf{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:12px;align-items:flex-start;}
+}
+::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--bs);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nl">F&amp;B Image OS</div>
+  <ul class="nm">
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#stage1">F&amp;B Stage</a></li>
+    <li><a href="#stage2">AI Stage</a></li>
+    <li><a href="#stage3">Graphic Stage</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#gates">Quality</a></li>
+    <li><a href="#prompts">Prompts</a></li>
+    <li><a href="#delivery">Delivery</a></li>
+  </ul>
+</nav>
+
+<!-- HERO PAGE -->
+<div class="hero">
+  <div class="hgb"></div>
+  <div class="hg1"></div>
+  <div class="hg2"></div>
+  <div class="htag">F&amp;B &middot; AI Image Production System &middot; Cafe &amp; Restaurant</div>
+  <h1>3-Stage<br><em>Production</em><br>Workflow</h1>
+  <p class="hdesc">F&amp;B เตรียมข้อมูลให้สมบูรณ์และทำงานร่วมกับ AI Creative Producer จนเสร็จก่อน &rarr; ค่อยส่งต่อ Graphic Designer ผลิต Output ทุก Channel</p>
+  <div class="hst">
+    <div class="stat"><div class="sn">3</div><div class="sl">Sequential Stages</div></div>
+    <div class="stat"><div class="sn">200+</div><div class="sl">Menu Items</div></div>
+    <div class="stat"><div class="sn">6</div><div class="sl">Quality Gates</div></div>
+    <div class="stat"><div class="sn">2</div><div class="sl">Handoff Points</div></div>
+  </div>
+</div>
+
+<!-- WORKFLOW PAGE -->
+<div class="wf-page" id="workflow">
+  <div class="hgb"></div>
+  <div class="slbl" style="position:relative;">01 &mdash; Sequential Workflow</div>
+  <div class="wf-title">ลำดับการทำงาน</div>
+  <div class="wf-sub">F&amp;B + AI Producer ทำงานร่วมกันจนเสร็จสมบูรณ์ก่อน &rarr; ส่งต่อ Graphic Designer</div>
+
+  <div class="flow-diagram">
+    <div class="flow-row">
+      <!-- STAGE 1: F&B -->
+      <div class="flow-stage fnb">
+        <div class="flow-stage-head">
+          <div class="flow-stage-num">Stage 01</div>
+          <span class="flow-stage-icon">&#x1F468;&#x200D;&#x1F373;</span>
+          <div class="flow-stage-name">F&amp;B Team</div>
+          <div class="flow-stage-role">Content Authority &amp; Foundation</div>
+        </div>
+        <div class="flow-stage-body">
+          <div class="flow-task">จัดทำรายการเมนูทั้งหมด 200+ รายการ</div>
+          <div class="flow-task">ระบุวัตถุดิบหลักทุกเมนู (Head Chef)</div>
+          <div class="flow-task">กำหนดราคาขาย — Owner อนุมัติ</div>
+          <div class="flow-task">ระบุ Allergen &amp; Special Notes</div>
+          <div class="flow-task">QC ภาพร่วมกับ AI Producer ทุกใบ</div>
+          <div class="flow-task">Sign-off ภาพก่อนส่ง Graphic</div>
+          <div class="flow-gate">
+            <div class="flow-gate-txt">&#x2B21; ทำงานร่วมกับ AI Producer จนเสร็จก่อน</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARROW -->
+      <div class="flow-arrow-col">
+        <div class="flow-arrow-line"></div>
+        <div class="flow-arrow-icon">&#x21C4;</div>
+        <div class="flow-arrow-lbl">ทำงานร่วมกัน</div>
+        <div class="flow-arrow-line"></div>
+      </div>
+
+      <!-- STAGE 2: AI -->
+      <div class="flow-stage ai">
+        <div class="flow-stage-head">
+          <div class="flow-stage-num">Stage 02</div>
+          <span class="flow-stage-icon">&#x1F916;</span>
+          <div class="flow-stage-name">AI Creative Producer</div>
+          <div class="flow-stage-role">Image Creation &amp; QC Lead</div>
+        </div>
+        <div class="flow-stage-body">
+          <div class="flow-task">รับ Menu Master Sheet จาก F&amp;B</div>
+          <div class="flow-task">สร้าง Prompt System จากข้อมูล F&amp;B</div>
+          <div class="flow-task">Generate ภาพ 200+ เมนู</div>
+          <div class="flow-task">QC ร่วมกับ F&amp;B ทุกภาพ — รอ Approve</div>
+          <div class="flow-task">Retouch &amp; Export ทุก Format</div>
+          <div class="flow-task">เตรียม Handoff 2 Package ส่ง Graphic</div>
+          <div class="flow-gate">
+            <div class="flow-gate-txt">&#x2B21; F&amp;B Sign-off ทุกภาพ &rarr; Handoff 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HANDOFF 2 GATE -->
+    <div class="handoff-gate">
+      <div class="hg-box">
+        <div class="hg-icon">&#x1F4E6;</div>
+        <div>
+          <div class="hg-text">HANDOFF 2 &mdash; F&amp;B + AI Producer เสร็จสมบูรณ์ &rarr; ส่งต่อ Graphic Designer</div>
+          <div class="hg-sub">ภาพ Final 200+ &middot; Price List &middot; Asset Index &middot; Spec Sheet &middot; Prompt Library</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 3: GRAPHIC -->
+    <div class="flow-row">
+      <div class="flow-stage gfx" style="max-width:100%;">
+        <div class="flow-stage-head">
+          <div class="flow-stage-num">Stage 03 &mdash; หลัง F&amp;B + AI Producer เสร็จเท่านั้น</div>
+          <span class="flow-stage-icon">&#x1F3A8;</span>
+          <div class="flow-stage-name">Graphic Designer</div>
+          <div class="flow-stage-role">Production Output &mdash; All Channels</div>
+        </div>
+        <div class="flow-stage-body" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;">
+          <div class="flow-task">รับภาพ Final + Price List จาก Handoff 2</div>
+          <div class="flow-task">Layout รูปเล่มเมนูพิมพ์ (InDesign)</div>
+          <div class="flow-task">Ads ทุก Platform ด้วย AI</div>
+          <div class="flow-task">LINE OA &amp; In-Store Signage</div>
+          <div class="flow-task">Digital Menu &amp; QR Code</div>
+          <div class="flow-task">Export ทุก Format &amp; Channel</div>
+          <div class="flow-gate" style="grid-column:1/-1;">
+            <div class="flow-gate-txt">&#x2B21; F&amp;B Manager Sign-off ก่อน Print / Publish ทุกชิ้น</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW CALLOUT -->
+<section class="sec" id="overview" style="padding-top:40px;">
+  <div class="cb">
+    <div class="ct">F&amp;B + AI Producer <span>ทำงานร่วมกันจนเสร็จ</span><br>แล้วค่อย <span>ส่ง Graphic Designer</span></div>
+    <div class="cn">CI Brand และ Visual Direction เป็นหน้าที่ของ Design Director ไม่ใช่ F&amp;B — F&amp;B เน้นความถูกต้องของเมนู วัตถุดิบ และราคา</div>
+  </div>
+</section>
+
+<!-- ===== STAGE 1: F&B ===== -->
+<div class="sdiv" id="stage1">
+  <div class="sb fnb">&#x1F468;&#x200D;&#x1F373; Stage 1 &mdash; F&amp;B Team</div>
+  <div class="st2">เมนู &middot; วัตถุดิบ &middot; ราคา &middot; QC ภาพร่วมกับ AI</div>
+  <div class="sdn">F&amp;B + AI Producer ต้องเสร็จก่อน<br>ค่อยส่ง Graphic Designer</div>
+</div>
+
+<section class="sec" style="padding-top:40px;">
+  <div class="iob">
+    <div class="ios">
+      <div class="iot">&#x1F4E5; F&amp;B ต้องเตรียม Input</div>
+      <div class="ioi">
+        <div class="ioitem"><div class="iod"></div>ข้อมูลทุกเมนู ชื่อไทย + EN</div>
+        <div class="ioitem"><div class="iod"></div>วัตถุดิบหลัก 3&ndash;5 อย่างต่อเมนู</div>
+        <div class="ioitem"><div class="iod"></div>Allergen &amp; Dietary Info</div>
+        <div class="ioitem"><div class="iod"></div>Portion Size &amp; รูปแบบการเสิร์ฟ</div>
+        <div class="ioitem"><div class="iod"></div>ราคาขายทุกรายการ (Owner อนุมัติ)</div>
+      </div>
+    </div>
+    <div class="ioa">&rarr;</div>
+    <div class="ios out">
+      <div class="iot" style="color:var(--pur);">&#x1F4E4; Output &rarr; Handoff 1 ให้ AI Producer</div>
+      <div class="ioi">
+        <div class="ioitem"><div class="iod"></div>Menu Master Sheet ครบ 100% ทุก field</div>
+        <div class="ioitem"><div class="iod"></div>Price List ที่ Owner Sign-off แล้ว</div>
+        <div class="ioitem"><div class="iod"></div>Allergen &amp; Special Notes ทุกรายการ</div>
+        <div class="ioitem"><div class="iod"></div>Priority List เมนูที่ต้องใช้ก่อน</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <!-- F1 -->
+    <div class="pb fnb">
+      <div class="ph" onclick="toggle(this)">
+        <div class="pnum">F1</div>
+        <div class="pm">
+          <div class="ptit">จัดทำรายการเมนูและ Category</div>
+          <div class="psub">ชื่อไทย&ndash;EN &middot; หมวดหมู่ &middot; กรอกลง Menu Master Sheet</div>
+        </div>
+        <div class="pts">
+          <span class="tag tf">F&amp;B Lead</span>
+          <span class="tag tg">AI: ช่วย Draft EN</span>
+        </div>
+        <div class="ptog">&#x25BE;</div>
+      </div>
+      <div class="pbody">
+        <table class="stbl">
+          <colgroup><col><col><col><col><col></colgroup>
+          <thead><tr><th>Step</th><th>รายละเอียด</th><th>Who</th><th>AI Action</th><th>Checklist</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="snum">F1.1</td>
+              <td><div class="sname">กำหนด Category หลัก</div>แบ่งหมวดหมู่ให้ครอบคลุมทุกประเภท</td>
+              <td><span class="bfnb">F&amp;B Manager</span></td>
+              <td class="bai">Claude แนะนำ Category structure สำหรับ Cafe-Restaurant</td>
+              <td><div class="scl"><div class="ci">อาหารเช้า / กลางวัน / เย็น</div><div class="ci">เครื่องดื่มร้อน / เย็น / Mocktail</div><div class="ci">ของหวาน / Bakery / Set Menu</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">F1.2</td>
+              <td><div class="sname">ตั้งชื่อเมนูไทย + อังกฤษ</div>ชื่อที่ใช้ทุก Channel ต้องตรงกัน</td>
+              <td><span class="bfnb">F&amp;B Team</span></td>
+              <td class="bai">Claude translate + suggest ชื่อ EN ที่น่าสนใจ</td>
+              <td><div class="scl"><div class="ci">ชื่อไทยสะกดถูก ไม่กำกวม</div><div class="ci">ชื่อ EN อ่านง่าย น่าสนใจ</div><div class="ci">ไม่ซ้ำกันในระบบ</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">F1.3</td>
+              <td><div class="sname">กรอกลง Menu Master Sheet</div>Google Sheet กลางที่ทุกคน Access ได้</td>
+              <td><span class="bfnb">F&amp;B Team</span></td>
+              <td class="bai">Claude สร้าง Template + Validation + Drop-down</td>
+              <td><div class="scl"><div class="ci">MenuID &middot; ชื่อไทย &middot; ชื่อ EN &middot; Category</div><div class="ci">วัตถุดิบ &middot; Allergen &middot; Portion &middot; ราคา &middot; Status</div><div class="ci">ทุกแถวครบ ไม่มีช่องว่าง</div></div></td>
+            </tr>
+            <tr class="grow"><td colspan="5"><div class="glbl">รายการเมนูครบ ชื่อถูกต้องทั้งไทย&ndash;EN &mdash; F&amp;B Manager Sign-off</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- F2 -->
+    <div class="pb fnb">
+      <div class="ph" onclick="toggle(this)">
+        <div class="pnum">F2</div>
+        <div class="pm">
+          <div class="ptit">ระบุวัตถุดิบ &middot; Allergen &middot; Portion</div>
+          <div class="psub">ข้อมูลนี้คือ &ldquo;สคริปต์&rdquo; ให้ AI Generate ภาพให้ถูกต้อง</div>
+        </div>
+        <div class="pts">
+          <span class="tag tf">Head Chef</span>
+          <span class="tag tgt">Critical Data</span>
+        </div>
+        <div class="ptog">&#x25BE;</div>
+      </div>
+      <div class="pbody">
+        <table class="stbl">
+          <colgroup><col><col><col><col><col></colgroup>
+          <thead><tr><th>Step</th><th>รายละเอียด</th><th>Who</th><th>AI Action</th><th>Checklist</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="snum">F2.1</td>
+              <td><div class="sname">ระบุวัตถุดิบหลัก 3&ndash;5 อย่างต่อเมนู</div>AI ใช้สร้าง [SUBJECT] ใน Prompt โดยตรง</td>
+              <td><span class="bfnb">Head Chef</span></td>
+              <td class="bai">Claude format ให้เป็น structured list &rarr; ดึงไป Prompt อัตโนมัติ</td>
+              <td><div class="scl"><div class="ci">Protein หลัก (กุ้ง / ไก่ / เนื้อ / เต้าหู้)</div><div class="ci">สี &amp; Texture ที่เห็นได้ชัดในจาน</div><div class="ci">Garnish / Topping สำคัญ</div><div class="ci">รูปทรงภาชนะ (Bowl / Plate / Glass)</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">F2.2</td>
+              <td><div class="sname">ระบุ Allergen ทุกเมนู</div>ต้องครบก่อนส่งทำรูปเล่ม</td>
+              <td><span class="bfnb">F&amp;B Team</span></td>
+              <td class="bai">Claude cross-check Allergen จากวัตถุดิบที่ระบุ</td>
+              <td><div class="scl"><div class="ci">กลูเตน / นม / ไข่ / ถั่ว / อาหารทะเล</div><div class="ci">ระบุ &ldquo;ไม่มี Allergen&rdquo; ถ้าปลอดภัย</div><div class="ci">Flag Vegan / Vegetarian ชัดเจน</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">F2.3</td>
+              <td><div class="sname">ระบุ Portion &amp; รูปแบบการเสิร์ฟ</div>ใช้สำหรับกำหนด Plating ในภาพ AI</td>
+              <td><span class="bfnb">Head Chef</span></td>
+              <td class="bai">Claude สร้าง Plating description จาก Portion info</td>
+              <td><div class="scl"><div class="ci">ขนาด Portion หรือกรัม</div><div class="ci">เสิร์ฟเดี่ยวหรือเป็นชุด</div><div class="ci">มี Side dish / Sauce แยกไหม</div></div></td>
+            </tr>
+            <tr class="grow"><td colspan="5"><div class="glbl">วัตถุดิบ + Allergen ครบทุกเมนู &mdash; Head Chef Sign-off</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- F3 -->
+    <div class="pb fnb">
+      <div class="ph" onclick="toggle(this)">
+        <div class="pnum">F3</div>
+        <div class="pm">
+          <div class="ptit">กำหนดราคา &middot; Final Review &middot; Handoff 1</div>
+          <div class="psub">ราคา Owner อนุมัติ &middot; ตรวจครั้งสุดท้าย &middot; ส่ง AI Producer</div>
+        </div>
+        <div class="pts">
+          <span class="tag tf">F&amp;B + Owner</span>
+          <span class="tag tgt">Gate &rarr; Handoff 1</span>
+        </div>
+        <div class="ptog">&#x25BE;</div>
+      </div>
+      <div class="pbody">
+        <table class="stbl">
+          <colgroup><col><col><col><col><col></colgroup>
+          <thead><tr><th>Step</th><th>รายละเอียด</th><th>Who</th><th>AI Action</th><th>Checklist</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="snum">F3.1</td>
+              <td><div class="sname">กำหนดราคาขายทุกเมนู</div>ราคาที่จะขึ้นในรูปเล่มและ Ads จริง</td>
+              <td><span class="bfnb">F&amp;B Manager + Owner</span></td>
+              <td class="bai">Claude คำนวณ Food Cost % &amp; Margin เปรียบเทียบ</td>
+              <td><div class="scl"><div class="ci">ราคาครบทุกรายการ ไม่มีช่องว่าง</div><div class="ci">Set / Combo ระบุชัดเจน</div><div class="ci">Owner อนุมัติแล้ว</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">F3.2</td>
+              <td><div class="sname">Final Review ทั้ง Sheet</div>ตรวจครบทุก field ก่อนส่ง AI Producer</td>
+              <td><span class="bfnb">F&amp;B Manager</span></td>
+              <td class="bai">Claude ตรวจ completeness &mdash; แจ้ง field ที่ขาดทันที</td>
+              <td><div class="scl"><div class="ci">ทุก Column ครบ ไม่มี &ldquo;TBD&rdquo; เหลือ</div><div class="ci">ชื่อเมนูไม่สะกดผิด</div><div class="ci">เมนูหยุดขายลบออกแล้ว</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">F3.3</td>
+              <td><div class="sname">Sign-off &amp; ส่ง Handoff 1</div>ส่ง Package ครบให้ AI Producer</td>
+              <td><span class="bfnb">F&amp;B Manager</span></td>
+              <td class="bai">Claude สร้าง Handoff Summary Document</td>
+              <td><div class="scl"><div class="ci">ส่ง Google Sheet Link + Price List</div><div class="ci">ระบุ Priority &amp; Deadline</div><div class="ci">แนบ Special Notes เมนูพิเศษ</div></div></td>
+            </tr>
+            <tr class="grow"><td colspan="5"><div class="glbl">HANDOFF 1 &mdash; F&amp;B Sign-off &rarr; AI Creative Producer &middot; Menu Master Sheet ครบ 100%</div></td></tr>
+          </tbody>
+        </table>
+        <div class="hbox">
+          <div class="hi2">&#x1F4CB;</div>
+          <div>
+            <div class="htit">Handoff 1 Package &middot; F&amp;B &rarr; AI Creative Producer</div>
+            <div class="hitms">
+              <div class="hitem">Menu Master Sheet &mdash; ชื่อไทย/EN, Category, วัตถุดิบ, Allergen, Portion, ราคา ครบทุก field</div>
+              <div class="hitem">Price List ที่ Owner Sign-off &mdash; AI Producer ไม่ต้องถามราคาอีก</div>
+              <div class="hitem">Special Notes เมนูที่มีข้อกำหนดพิเศษ</div>
+              <div class="hitem">Priority List เมนูที่ต้องใช้ก่อน (ถ้ามี)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STAGE 2: AI ===== -->
+<div class="sdiv" id="stage2">
+  <div class="sb ai">&#x1F916; Stage 2 &mdash; AI Creative Producer</div>
+  <div class="st2">Prompt System &middot; Generate &middot; QC ร่วมกับ F&amp;B</div>
+  <div class="sdn">เริ่มได้หลัง Handoff 1 เท่านั้น<br>ทุกภาพต้อง F&amp;B Approve ก่อน Handoff 2</div>
+</div>
+
+<section class="sec" style="padding-top:40px;">
+  <div class="iob">
+    <div class="ios">
+      <div class="iot">&#x1F4E5; รับจาก F&amp;B &mdash; Handoff 1</div>
+      <div class="ioi">
+        <div class="ioitem"><div class="iod"></div>Menu Master Sheet ครบ 200+</div>
+        <div class="ioitem"><div class="iod"></div>วัตถุดิบ + Allergen ทุกรายการ</div>
+        <div class="ioitem"><div class="iod"></div>Price List อนุมัติแล้ว</div>
+        <div class="ioitem"><div class="iod"></div>Special Notes &amp; Priority List</div>
+      </div>
+    </div>
+    <div class="ioa">&rarr;</div>
+    <div class="ios out">
+      <div class="iot" style="color:var(--grn);">&#x1F4E4; Output &rarr; Handoff 2 ให้ Graphic</div>
+      <div class="ioi">
+        <div class="ioitem"><div class="iod"></div>ภาพ Final 200+ (TIFF 300dpi)</div>
+        <div class="ioitem"><div class="iod"></div>Digital RGB ทุก Format</div>
+        <div class="ioitem"><div class="iod"></div>Prompt Library Archive</div>
+        <div class="ioitem"><div class="iod"></div>Asset Index + Price List (ส่งต่อ)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <!-- A1 Prompt System -->
+    <div class="pb ai">
+      <div class="ph" onclick="toggle(this)">
+        <div class="pnum">A1</div>
+        <div class="pm">
+          <div class="ptit">Prompt System &mdash; ดึงจาก Menu Sheet</div>
+          <div class="psub">Build Prompt ทุกเมนูจากวัตถุดิบ F&amp;B &middot; Test 10 เมนูก่อน Mass Generate</div>
+        </div>
+        <div class="pts">
+          <span class="tag tp">AI Producer</span>
+          <span class="tag tgt">Gate A1</span>
+        </div>
+        <div class="ptog">&#x25BE;</div>
+      </div>
+      <div class="pbody">
+        <table class="stbl">
+          <colgroup><col><col><col><col><col></colgroup>
+          <thead><tr><th>Step</th><th>รายละเอียด</th><th>Who</th><th>AI Action</th><th>Checklist</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="snum">A1.1</td>
+              <td><div class="sname">สร้าง Master Prompt Template</div>5-part structure สำหรับทุกเมนู</td>
+              <td><span class="bai">AI Producer</span></td>
+              <td class="bai">Claude สร้าง template + test variations</td>
+              <td><div class="scl"><div class="ci">[SUBJECT] = ดึงชื่อ + วัตถุดิบจาก Sheet</div><div class="ci">[STYLE][LIGHT][SURFACE][TECH] มาตรฐาน</div><div class="ci">Negative Prompt ครบ</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">A1.2</td>
+              <td><div class="sname">Batch-Generate Prompt ทุกเมนู</div>ใส่ลง Spreadsheet ทุกแถว</td>
+              <td><span class="bai">AI Producer</span></td>
+              <td class="bai">Claude batch-populate Full Prompt ทุกแถวอัตโนมัติ</td>
+              <td><div class="scl"><div class="ci">Prompt ทุกแถวครบ วัตถุดิบถูกต้อง</div><div class="ci">Angle กำหนดตาม Category</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">A1.3</td>
+              <td><div class="sname">Test Batch 10 เมนู + F&amp;B Approve</div>ข้ามทุก Category ก่อน Mass Generate</td>
+              <td><span class="bboth">AI Producer + F&amp;B</span></td>
+              <td class="bai">Generate 10 ตัวอย่าง ส่ง F&amp;B ตรวจว่าตรงจริงไหม</td>
+              <td><div class="scl"><div class="ci">Style Consistent ข้าม Category</div><div class="ci">F&amp;B Approve ทั้ง 10 ตัวอย่าง</div><div class="ci">ปรับ Prompt ถ้าผลไม่ตรง</div></div></td>
+            </tr>
+            <tr class="grow"><td colspan="5"><div class="glbl">GATE A1 &mdash; F&amp;B Approve Test Batch ก่อนเริ่ม Mass Generate 200+ เมนู</div></td></tr>
+          </tbody>
+        </table>
+        <div class="pp">
+          <div class="pph">
+            <div class="ppl">Master Prompt Template &mdash; [SUBJECT] ดึงจาก F&amp;B Menu Sheet อัตโนมัติ</div>
+            <span class="tag tg">Midjourney v6 / DALL&middot;E 3</span>
+          </div>
+          <div class="ppb">
+<span class="pc"># [SUBJECT] auto-populated จาก Menu Master Sheet</span>
+<span class="pk">[SUBJECT]</span>   <span class="pv">"[ชื่อ EN], featuring [วัตถุดิบหลัก], [Portion], appetizing"</span>
+<span class="pk">[STYLE]</span>     <span class="pv">cozy cafe, rustic-modern, airy, professional food photography</span>
+<span class="pk">[LIGHTING]</span>  <span class="pv">soft diffused window light, warm golden tones, gentle shadows</span>
+<span class="pk">[SURFACE]</span>   <span class="pv">light oak table, linen napkin, minimal props</span>
+<span class="pk">[TECHNICAL]</span> <span class="pv">85mm lens, shallow DOF, ultra detailed --ar 4:3 --v 6 --style raw</span>
+<span class="pc">---</span>
+<span class="pk">[NEGATIVE]</span>  <span class="pv">blurry, cartoon, watermark, oversaturated, plastic, AI artifact</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A2 Mass Gen -->
+    <div class="pb ai">
+      <div class="ph" onclick="toggle(this)">
+        <div class="pnum">A2</div>
+        <div class="pm">
+          <div class="ptit">Mass Generation 200+ เมนู</div>
+          <div class="psub">Batch ตาม Category &middot; 4 Variation &middot; คัด 2 &middot; Upscale &middot; Update Sheet</div>
+        </div>
+        <div class="pts">
+          <span class="tag tp">AI Producer</span>
+          <span class="tag to">Output: RAW</span>
+        </div>
+        <div class="ptog">&#x25BE;</div>
+      </div>
+      <div class="pbody">
+        <table class="stbl">
+          <colgroup><col><col><col><col><col></colgroup>
+          <thead><tr><th>Step</th><th>รายละเอียด</th><th>Who</th><th>AI Action</th><th>Checklist</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="snum">A2.1</td>
+              <td><div class="sname">แบ่ง Batch ตาม Priority ของ F&amp;B</div>ทีละ 20&ndash;25 เมนู</td>
+              <td><span class="bai">AI Producer</span></td>
+              <td class="bai">AI schedule batch จาก Priority List</td>
+              <td><div class="scl"><div class="ci">เมนูที่ F&amp;B ขอก่อน &rarr; Batch แรก</div><div class="ci">ทำ Category เดียวกัน &rarr; Style สม่ำเสมอ</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">A2.2</td>
+              <td><div class="sname">Generate 4 Variation &rarr; คัด 2 &rarr; Upscale</div>Rename + Update Sheet ทันที</td>
+              <td><span class="bai">AI Producer</span></td>
+              <td class="bai">Midjourney / DALL&middot;E / Firefly generate + upscale</td>
+              <td><div class="scl"><div class="ci">4 variation &rarr; คัด 2 &rarr; Upscale ทั้ง 2</div><div class="ci">Rename: [Cat]-[No]_[Name]_[Angle]_v[N]</div><div class="ci">Update Status ใน Sheet ทุก batch</div></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- A3 QC with F&B -->
+    <div class="pb ai">
+      <div class="ph" onclick="toggle(this)">
+        <div class="pnum">A3</div>
+        <div class="pm">
+          <div class="ptit">QC ร่วมกับ F&amp;B &mdash; ตรวจความถูกต้อง</div>
+          <div class="psub">F&amp;B มี Veto &middot; ภาพไม่ตรงของจริง = Reject ทันที &middot; ต้องผ่านก่อน Post-Process</div>
+        </div>
+        <div class="pts">
+          <span class="tag tf">F&amp;B: Veto Authority</span>
+          <span class="tag tp">AI: Technical QC</span>
+          <span class="tag tgt">Gate A2 &mdash; Critical</span>
+        </div>
+        <div class="ptog">&#x25BE;</div>
+      </div>
+      <div class="pbody">
+        <table class="stbl">
+          <colgroup><col><col><col><col><col></colgroup>
+          <thead><tr><th>Step</th><th>ด้านที่ตรวจ</th><th>Who</th><th>เกณฑ์</th><th>Checklist</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="snum">A3.1</td>
+              <td><div class="sname">Content Accuracy &mdash; สำคัญที่สุด</div>ภาพตรงกับเมนูที่ขายจริงไหม</td>
+              <td><span class="bfnb">F&amp;B Team (Veto)</span></td>
+              <td><span style="color:var(--red);font-size:12px;">F&amp;B Reject ได้ทุกภาพ</span></td>
+              <td><div class="scl"><div class="ci">วัตถุดิบตรงกับ Sheet ทุกอย่าง</div><div class="ci">Protein ถูกชนิด</div><div class="ci">Portion สมเหตุสมผลกับราคา</div><div class="ci">ไม่ Mislead ลูกค้า</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">A3.2</td>
+              <td><div class="sname">Brand &amp; Style QC</div>ตรง CI Brand จาก Design Director ไหม</td>
+              <td><span class="bai">AI Producer</span></td>
+              <td><span style="color:var(--pur);font-size:12px;">Consistency ข้ามภาพ</span></td>
+              <td><div class="scl"><div class="ci">Lighting Style Consistent</div><div class="ci">Color สม่ำเสมอ</div><div class="ci">Surface/Props ตาม CI Brand</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">A3.3</td>
+              <td><div class="sname">Technical QC</div>ไฟล์พร้อมใช้งาน</td>
+              <td><span class="bai">AI Producer</span></td>
+              <td><span style="color:var(--pur);font-size:12px;">Resolution &amp; Artifact</span></td>
+              <td><div class="scl"><div class="ci">&ge; 300 DPI ทุกใบ</div><div class="ci">ไม่มี AI Artifact</div></div></td>
+            </tr>
+            <tr class="grow"><td colspan="5"><div class="glbl">GATE A2 &mdash; F&amp;B Sign-off ทุกภาพ &middot; ผ่านครบก่อนเข้า Post-Processing</div></td></tr>
+          </tbody>
+        </table>
+        <div class="trf">
+          <div class="tc pass"><div class="tcd">&#x1F7E2;</div><div class="tcl">Pass</div><div class="tcc">F&amp;B Approve &mdash; เข้า Post-Process</div></div>
+          <div class="tc rev"><div class="tcd">&#x1F7E1;</div><div class="tcl">Revise</div><div class="tcc">Generate ใหม่ด้วย Prompt ที่ปรับ &rarr; F&amp;B ดูอีกรอบ</div></div>
+          <div class="tc rej"><div class="tcd">&#x1F534;</div><div class="tcl">Reject</div><div class="tcc">บันทึกเหตุผล + Prompt ที่ใช้ไม่ได้</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A4 Post-Process -->
+    <div class="pb ai">
+      <div class="ph" onclick="toggle(this)">
+        <div class="pnum">A4</div>
+        <div class="pm">
+          <div class="ptit">Post-Processing &amp; Handoff 2</div>
+          <div class="psub">Color Grade &middot; Retouch &middot; Batch Export &middot; ส่ง Graphic Designer</div>
+        </div>
+        <div class="pts">
+          <span class="tag tp">AI Producer</span>
+          <span class="tag to">Output: Finals</span>
+          <span class="tag tgt">Gate &rarr; Handoff 2</span>
+        </div>
+        <div class="ptog">&#x25BE;</div>
+      </div>
+      <div class="pbody">
+        <table class="stbl">
+          <colgroup><col><col><col><col><col></colgroup>
+          <thead><tr><th>Step</th><th>รายละเอียด</th><th>Who</th><th>AI Action</th><th>Checklist</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="snum">A4.1</td>
+              <td><div class="sname">Color Grading Batch</div>Tone เดียวกันทุกภาพ</td>
+              <td><span class="bai">AI Producer</span></td>
+              <td class="bai">Lightroom AI Preset batch apply ทั้งโปรเจกต์</td>
+              <td><div class="scl"><div class="ci">Warm Consistent White Balance</div><div class="ci">Preset เดียวกันทุกภาพ</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">A4.2</td>
+              <td><div class="sname">Batch Export ทุก Channel</div>ทำทีเดียวทุก Format</td>
+              <td><span class="bai">AI Producer</span></td>
+              <td class="bai">Photoshop Action batch export อัตโนมัติ</td>
+              <td><div class="scl"><div class="ci">Print: TIFF / CMYK / 300 DPI</div><div class="ci">Digital: JPG / sRGB / 1200&times;900</div><div class="ci">Social: 1080&times;1080 + 1080&times;1920</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">A4.3</td>
+              <td><div class="sname">เตรียม Handoff 2 &amp; ส่ง Graphic</div>ภาพครบ + Spec + Price List</td>
+              <td><span class="bai">AI Producer</span></td>
+              <td class="bai">Claude สร้าง Asset Index + Handoff Notes</td>
+              <td><div class="scl"><div class="ci">ภาพครบ 200+ แยก Folder</div><div class="ci">Asset Index ลิงก์ทุกไฟล์</div><div class="ci">Spec Sheet + Price List แนบครบ</div></div></td>
+            </tr>
+            <tr class="grow"><td colspan="5"><div class="glbl">HANDOFF 2 &mdash; AI Producer &rarr; Graphic &middot; ภาพครบ F&amp;B Approve ทั้งหมด พร้อม Spec + Price List</div></td></tr>
+          </tbody>
+        </table>
+        <div class="hbox">
+          <div class="hi2">&#x1F4E6;</div>
+          <div>
+            <div class="htit">Handoff 2 Package &middot; F&amp;B + AI Producer &rarr; Graphic Designer</div>
+            <div class="hitms">
+              <div class="hitem">Final Images 200+ &mdash; Print_CMYK / Digital_RGB / Social_Media</div>
+              <div class="hitem">Menu Master Sheet (Updated) &mdash; Status = Final Approved ทุกแถว</div>
+              <div class="hitem">Price List จาก F&amp;B &mdash; Graphic ใช้ขึ้นราคาได้เลย ไม่ต้องถามใหม่</div>
+              <div class="hitem">Spec Sheet &mdash; Format, Resolution, Color Mode แต่ละ Channel</div>
+              <div class="hitem">Prompt Library Archive &mdash; ใช้อนาคตถ้าต้องเพิ่มเมนู</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STAGE 3: GRAPHIC ===== -->
+<div class="sdiv" id="stage3">
+  <div class="sb gfx">&#x1F3A8; Stage 3 &mdash; Graphic Designer</div>
+  <div class="st2">รูปเล่มเมนู &middot; Ads &middot; Digital Output</div>
+  <div class="sdn">เริ่มได้หลัง F&amp;B + AI Producer เสร็จสมบูรณ์เท่านั้น<br>ราคา/ชื่อมาจาก Package &mdash; ใช้ได้เลย</div>
+</div>
+
+<section class="sec" style="padding-top:40px;">
+  <div class="pf">
+    <!-- G1 -->
+    <div class="pb gfx">
+      <div class="ph" onclick="toggle(this)">
+        <div class="pnum">G1</div>
+        <div class="pm">
+          <div class="ptit">รูปเล่มเมนูพิมพ์</div>
+          <div class="psub">Layout &middot; ราคาจาก Package &middot; Export PDF/X-1a &middot; Hard Proof &middot; โรงพิมพ์</div>
+        </div>
+        <div class="pts">
+          <span class="tag to">Graphic Lead</span>
+          <span class="tag tg">AI: Assist</span>
+          <span class="tag tgt">Gate G1</span>
+        </div>
+        <div class="ptog">&#x25BE;</div>
+      </div>
+      <div class="pbody">
+        <table class="stbl">
+          <colgroup><col><col><col><col><col></colgroup>
+          <thead><tr><th>Step</th><th>รายละเอียด</th><th>Who</th><th>AI Action</th><th>Checklist</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="snum">G1.1</td>
+              <td><div class="sname">Layout Design รูปเล่มทุกหน้า</div>ภาพ + ชื่อ + วัตถุดิบ + ราคา + Allergen</td>
+              <td><span class="bgfx">Graphic Designer</span></td>
+              <td class="bai">AI suggest layout, hierarchy, spacing</td>
+              <td><div class="scl"><div class="ci">Cover + Index + Back Cover</div><div class="ci">Allergen Icons ครบ</div><div class="ci">Font &amp; Color ตรง CI Brand</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">G1.2</td>
+              <td><div class="sname">ตรวจราคาและชื่อทุกหน้า</div>ใช้ Price List จาก Handoff Package</td>
+              <td><span class="bboth">Graphic + F&amp;B Check</span></td>
+              <td class="bai">Claude cross-check ชื่อ/ราคาใน layout กับ Master Sheet</td>
+              <td><div class="scl"><div class="ci">ราคาทุกรายการตรงกับ Price List</div><div class="ci">ชื่อสะกดถูกทั้งไทย&ndash;EN</div><div class="ci">ไม่มีเมนูขาดหาย</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">G1.3</td>
+              <td><div class="sname">Export PDF + Hard Proof</div>ส่งโรงพิมพ์ขอ Proof 1 เล่มก่อน</td>
+              <td><span class="bgfx">Graphic Designer</span></td>
+              <td class="bai">AI ตรวจ preflight &mdash; Bleed, Font, Color</td>
+              <td><div class="scl"><div class="ci">PDF/X-1a &middot; CMYK &middot; 300 DPI &middot; Bleed 3mm</div><div class="ci">Font Embedded / Outlined</div><div class="ci">Hard Proof ตรวจก่อน Print จริง</div></div></td>
+            </tr>
+            <tr class="grow"><td colspan="5"><div class="glbl">GATE G1 &mdash; F&amp;B Manager + Owner ตรวจ Proof &middot; Sign-off ก่อนพิมพ์จำนวนเต็ม</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- G2 -->
+    <div class="pb gfx">
+      <div class="ph" onclick="toggle(this)">
+        <div class="pnum">G2</div>
+        <div class="pm">
+          <div class="ptit">Ads ทุก Platform ด้วย AI</div>
+          <div class="psub">IG &middot; FB &middot; LINE OA &middot; In-Store Signage &middot; Digital Menu &amp; QR Code</div>
+        </div>
+        <div class="pts">
+          <span class="tag to">Graphic Lead</span>
+          <span class="tag tg">AI: Heavy Assist</span>
+          <span class="tag tgt">Gate G2</span>
+        </div>
+        <div class="ptog">&#x25BE;</div>
+      </div>
+      <div class="pbody">
+        <table class="stbl">
+          <colgroup><col><col><col><col><col></colgroup>
+          <thead><tr><th>Step</th><th>รายละเอียด</th><th>Who</th><th>AI Action</th><th>Checklist</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="snum">G2.1</td>
+              <td><div class="sname">Social Media Ads</div>IG Feed, Story, Reels, FB Post</td>
+              <td><span class="bgfx">Graphic Designer</span></td>
+              <td class="bai">Claude เขียน Headline + Body + CTA ทุก Ad</td>
+              <td><div class="scl"><div class="ci">IG Feed: 1080&times;1080 + Carousel</div><div class="ci">IG Story / Reels: 1080&times;1920</div><div class="ci">FB Post + Cover</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">G2.2</td>
+              <td><div class="sname">LINE OA &amp; In-Store Signage</div>Rich Message, Menu Board, Table Tent</td>
+              <td><span class="bgfx">Graphic Designer</span></td>
+              <td class="bai">AI batch adapt artwork ตาม Format</td>
+              <td><div class="scl"><div class="ci">LINE OA Rich Message</div><div class="ci">Menu Board / A3 ป้าย</div><div class="ci">Table Tent มาตรฐาน</div></div></td>
+            </tr>
+            <tr>
+              <td class="snum">G2.3</td>
+              <td><div class="sname">Digital Menu &amp; QR Code</div>เมนูบน Screen / QR</td>
+              <td><span class="bgfx">Graphic Designer</span></td>
+              <td class="bai">AI optimize layout สำหรับ screen reading</td>
+              <td><div class="scl"><div class="ci">Readable ทุก device</div><div class="ci">QR Code ถูกต้อง</div><div class="ci">Update ราคาทำได้ง่าย</div></div></td>
+            </tr>
+            <tr class="grow"><td colspan="5"><div class="glbl">GATE G2 &mdash; F&amp;B Manager Approve &middot; ก่อน Publish / Print ทุกชิ้น</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="sec" id="tools">
+  <div class="slbl">04 &mdash; Tools Stack</div>
+  <h2>เครื่องมือแต่ละ Stage</h2>
+  <div class="tm2">
+    <div class="tc2"><div class="tcat">Stage 1 &middot; F&amp;B</div><div class="tnm">Claude AI</div><div class="tuse">Draft ชื่อ EN, คำนวณ Food Cost, สร้าง Template Sheet, ตรวจ completeness</div></div>
+    <div class="tc2"><div class="tcat">Stage 1 &middot; F&amp;B</div><div class="tnm">Google Sheets</div><div class="tuse">Menu Master Sheet &mdash; ทุกคน Access Real-time ชื่อ, วัตถุดิบ, ราคา, Status</div></div>
+    <div class="tc2"><div class="tcat">Stage 2 &middot; AI</div><div class="tnm">Midjourney v6</div><div class="tuse">เมนูหลัก, ของหวาน &mdash; Realistic สูงสุด texture ดีมาก เหมาะ Cafe style</div></div>
+    <div class="tc2"><div class="tcat">Stage 2 &middot; AI</div><div class="tnm">DALL&middot;E 3</div><div class="tuse">เครื่องดื่ม &mdash; ปรับ Prompt ภาษาธรรมชาติ ดึงวัตถุดิบจาก Sheet ได้ตรง</div></div>
+    <div class="tc2"><div class="tcat">Stage 2 &middot; AI</div><div class="tnm">Photoshop AI</div><div class="tuse">Generative Fill, Remove BG, Retouch Artifact, Batch Export Action</div></div>
+    <div class="tc2"><div class="tcat">Stage 2 &middot; AI</div><div class="tnm">Lightroom</div><div class="tuse">AI Preset batch apply &mdash; ทุกภาพ Tone เดียวกันในคลิกเดียว</div></div>
+    <div class="tc2"><div class="tcat">Stage 3 &middot; Graphic</div><div class="tnm">InDesign</div><div class="tuse">รูปเล่มเมนูพิมพ์ Layout professional Export PDF/X-1a CMYK</div></div>
+    <div class="tc2"><div class="tcat">Stage 3 &middot; Graphic</div><div class="tnm">Canva Pro</div><div class="tuse">Social Ads, Digital Menu, In-Store &mdash; AI Magic Design ช่วย</div></div>
+    <div class="tc2"><div class="tcat">All Stages</div><div class="tnm">Google Drive</div><div class="tuse">Central Hub &mdash; Menu Sheet, Asset Library, Handoff Packages</div></div>
+  </div>
+</section>
+
+<!-- GATES -->
+<section class="sec" id="gates">
+  <div class="slbl">05 &mdash; Quality Gates</div>
+  <h2>6 จุดตรวจ &middot; ข้ามไม่ได้</h2>
+  <div class="gg">
+    <div class="gc"><div class="gct"><div class="gi">F1</div>Menu List Complete</div><div class="gcks"><div class="gck">ชื่อไทย + EN ครบทุกรายการ</div><div class="gck">Category กำหนดชัดเจน</div><div class="gck">ไม่มีซ้ำ ไม่มีช่องว่าง</div><div class="gck">F&amp;B Manager Sign-off</div></div></div>
+    <div class="gc"><div class="gct"><div class="gi">F2</div>Data Complete &mdash; Handoff 1</div><div class="gcks"><div class="gck">วัตถุดิบหลักครบทุกเมนู</div><div class="gck">Allergen ระบุครบ</div><div class="gck">ราคา Owner อนุมัติแล้ว</div><div class="gck">Head Chef + F&amp;B Manager Sign-off</div></div></div>
+    <div class="gc"><div class="gct"><div class="gi">A1</div>Prompt System Tested</div><div class="gcks"><div class="gck">Test Batch 10 เมนูผ่าน</div><div class="gck">F&amp;B Approve ทุก Test</div><div class="gck">Style Consistent ข้าม Category</div></div></div>
+    <div class="gc"><div class="gct"><div class="gi">A2</div>Image QC &mdash; F&amp;B Approved</div><div class="gcks"><div class="gck">ภาพทุกใบ F&amp;B Approve แล้ว</div><div class="gck">วัตถุดิบตรง Sheet ทุกรายการ</div><div class="gck">ไม่มี AI Artifact</div><div class="gck">&ge; 300 DPI ทุกใบ ครบ 200+</div></div></div>
+    <div class="gc"><div class="gct"><div class="gi">G1</div>Print-Ready Sign-off</div><div class="gcks"><div class="gck">Hard Proof ตรวจแล้ว</div><div class="gck">ราคาทุกหน้าถูกต้อง</div><div class="gck">CMYK Bleed 3mm ครบ</div><div class="gck">Owner / F&amp;B Manager Sign-off</div></div></div>
+    <div class="gc"><div class="gct"><div class="gi">G2</div>Ads Approved</div><div class="gcks"><div class="gck">ทุก Format ผ่าน F&amp;B Manager</div><div class="gck">Copy ถูก Tone of Voice</div><div class="gck">Digital Menu QR ถูกต้อง</div><div class="gck">ก่อน Publish / Print ทุกชิ้น</div></div></div>
+  </div>
+</section>
+
+<!-- PROMPTS -->
+<section class="sec" id="prompts">
+  <div class="slbl">06 &mdash; Prompt Library</div>
+  <h2>Template พร้อมใช้ &mdash; ดึงจาก F&amp;B Menu Sheet</h2>
+  <div class="pg">
+    <div class="prc"><div class="prh"><div class="prt">อาหารจานหลัก &mdash; Thai</div><span class="tag tg">Midjourney v6</span></div>
+      <div class="prb"><span class="pc"># [SUBJECT] ดึงจาก Sheet</span>
+<span class="pk">SUBJECT:</span> <span class="pv">[ชื่อ EN], featuring [วัตถุดิบ],</span>
+         <span class="pv">generous [Portion], plated</span>
+<span class="pk">STYLE:</span>   <span class="pv">cozy cafe, rustic-modern, warm</span>
+<span class="pk">LIGHT:</span>   <span class="pv">soft window daylight, golden</span>
+<span class="pk">SURFACE:</span> <span class="pv">dark wood, rattan placemat</span>
+<span class="pk">TECH:</span>    <span class="pv">85mm, --ar 4:3 --v 6 --style raw</span></div>
+    </div>
+    <div class="prc"><div class="prh"><div class="prt">เครื่องดื่มร้อน &mdash; Coffee</div><span class="tag tg">DALL&middot;E 3</span></div>
+      <div class="prb"><span class="pc"># [SUBJECT] ดึงจาก Sheet</span>
+<span class="pk">SUBJECT:</span> <span class="pv">[ชื่อ EN] in ceramic cup,</span>
+         <span class="pv">steam, [วัตถุดิบพิเศษ]</span>
+<span class="pk">STYLE:</span>   <span class="pv">specialty cafe, minimal</span>
+<span class="pk">LIGHT:</span>   <span class="pv">soft backlit natural, warm</span>
+<span class="pk">SURFACE:</span> <span class="pv">light oak, saucer, minimal</span>
+<span class="pk">TECH:</span>    <span class="pv">--ar 3:4 portrait</span></div>
+    </div>
+    <div class="prc"><div class="prh"><div class="prt">เครื่องดื่มเย็น &mdash; Cold</div><span class="tag tg">Midjourney v6</span></div>
+      <div class="prb"><span class="pc"># [SUBJECT] ดึงจาก Sheet</span>
+<span class="pk">SUBJECT:</span> <span class="pv">[ชื่อ EN] in tall glass,</span>
+         <span class="pv">ice, condensation, [สี] layers</span>
+<span class="pk">STYLE:</span>   <span class="pv">refreshing, vibrant, summer</span>
+<span class="pk">LIGHT:</span>   <span class="pv">bright natural, backlit</span>
+<span class="pk">SURFACE:</span> <span class="pv">white marble, [Garnish]</span>
+<span class="pk">TECH:</span>    <span class="pv">--ar 3:4 --style raw --v 6</span></div>
+    </div>
+    <div class="prc"><div class="prh"><div class="prt">ของหวาน &mdash; Desserts</div><span class="tag tg">Midjourney v6</span></div>
+      <div class="prb"><span class="pc"># [SUBJECT] ดึงจาก Sheet</span>
+<span class="pk">SUBJECT:</span> <span class="pv">[ชื่อ EN], artisan plating,</span>
+         <span class="pv">[วัตถุดิบ], texture visible</span>
+<span class="pk">STYLE:</span>   <span class="pv">patisserie quality, cafe</span>
+<span class="pk">LIGHT:</span>   <span class="pv">soft diffused, highlight</span>
+<span class="pk">SURFACE:</span> <span class="pv">marble, parchment</span>
+<span class="pk">TECH:</span>    <span class="pv">macro, --ar 1:1 --v 6</span></div>
+    </div>
+    <div class="prc"><div class="prh"><div class="prt">Set Menu</div><span class="tag tg">Midjourney v6</span></div>
+      <div class="prb"><span class="pc"># ดึง items ทุกอย่างใน Set</span>
+<span class="pk">SUBJECT:</span> <span class="pv">Complete [Set Name] spread,</span>
+         <span class="pv">[item1], [item2], [drink]</span>
+<span class="pk">STYLE:</span>   <span class="pv">abundant, generous</span>
+<span class="pk">LIGHT:</span>   <span class="pv">warm overhead, even</span>
+<span class="pk">SURFACE:</span> <span class="pv">large wood table</span>
+<span class="pk">TECH:</span>    <span class="pv">overhead 90&deg;, --ar 16:9</span></div>
+    </div>
+    <div class="prc"><div class="prh"><div class="prt">Revision &mdash; F&amp;B Reject</div><span class="tag tg">All Tools</span></div>
+      <div class="prb"><span class="pc"># ใช้เมื่อ F&amp;B Reject / Revise</span>
+<span class="pk">KEEP:</span>    <span class="pv">[ส่วนดีจาก version ก่อน]</span>
+<span class="pk">FIX:</span>     <span class="pv">[สิ่งที่ F&amp;B บอกว่าไม่ตรง]</span>
+<span class="pk">CORRECT:</span> <span class="pv">[วัตถุดิบ จาก Sheet]</span>
+<span class="pk">SEED:</span>    <span class="pv">[seed จาก version ก่อน]</span>
+<span class="pc"># บันทึก Reject reason ใน Sheet</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section class="sec" id="delivery">
+  <div class="slbl">07 &mdash; File Management</div>
+  <h2>Naming &middot; Folder &middot; Export Spec</h2>
+  <div class="fg">
+    <div class="fc"><div class="fct">Naming Format</div>
+      <div class="fe">[Cat]-[No]_[Name-EN]_[Angle]_v[N].ext</div>
+      <div class="fn" style="margin-bottom:6px;">ตัวอย่าง:</div>
+      <div class="fe">DK-001_AmericanoHot_EL_v1.tiff
+MD-023_GreenCurry_45_v2.tiff
+DS-005_ChocolateLava_45_v1.tiff</div>
+      <div class="fn">DK=Drink MD=Main DS=Dessert BK=Bakery<br>EL=Eye Level 45=45&deg; OV=Overhead</div>
+    </div>
+    <div class="fc"><div class="fct">Folder Structure</div>
+      <div class="fe">MENU_IMAGES_2025/
+  00_Menu_Master_Sheet/
+  01_Prompts_Library/
+  02_RAW_Generated/
+    Breakfast/ MainDish/
+    Drinks_Hot/ Drinks_Cold/
+    Desserts/ Bakery/
+  03_QC_FnB_Approved/
+  04_Retouched/
+  05_Final_Delivery/
+    Print_CMYK/
+    Digital_RGB/
+    Social_Media/</div>
+    </div>
+    <div class="fc"><div class="fct">Export Spec</div>
+      <div class="fe">Print (รูปเล่ม):
+  TIFF CMYK 300DPI Bleed3mm
+
+Digital Menu / QR:
+  JPG sRGB 1200x900
+
+Social Square:
+  JPG sRGB 1080x1080
+
+Social Story / Reels:
+  JPG sRGB 1080x1920
+
+Website / Banner:
+  JPG sRGB 1920x1080</div>
+    </div>
+    <div class="fc"><div class="fct">Timeline</div>
+      <div class="fe">Stage 1 F&B:      1-2 สัปดาห์
+Stage 2 AI:       3-4 สัปดาห์
+  Prompt+Test:    3-5 วัน
+  Generate:       2-3 สัปดาห์
+  QC+Export:      1 สัปดาห์
+─────────────────────────
+F&B+AI เสร็จก่อน: 4-5 wk
+─────────────────────────
+Stage 3 Graphic:  2-3 สัปดาห์
+Total:            6-7 สัปดาห์</div>
+      <div class="fn">Stage 2 AI เริ่ม Prompt ระหว่าง F&amp;B กรอก Sheet ได้ แต่ห้าม Generate จนกว่า Handoff 1 จะครบ 100%</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fb">F&amp;B Image OS</div>
+  <div class="fm">F&amp;B AI Production System &middot; Cafe &amp; Restaurant<br>Version 3.0 &middot; 2025 &middot; 3-Stage Sequential Workflow<br>F&amp;B + AI Producer (จบก่อน) &rarr; Graphic Output</div>
+</footer>
+
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const tog = header.querySelector('.ptog');
+  const open = body.classList.toggle('open');
+  tog.classList.toggle('open', open);
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.pb').forEach((p,i) => {
+    const cls = p.classList;
+    if((cls.contains('fnb') || cls.contains('ai') || cls.contains('gfx'))) {
+      const allSame = document.querySelectorAll('.pb.' + [...cls].find(c=>['fnb','ai','gfx'].includes(c)));
+      if(p === allSame[0]) toggle(p.querySelector('.ph'));
+    }
+  });
+});
+</script>
+</body>
+</html>
